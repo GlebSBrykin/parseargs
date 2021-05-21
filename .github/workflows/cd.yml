@@ -80,5 +80,5 @@ jobs:
         if: env.VERSION != ''
         run: |
           dotnet pack --configuration Release
-          cd "$BUILD_PATH"
+          cd "$BUILD_PATH/.."
           dotnet nuget push CommandLineArgumentParser.*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
