@@ -1,4 +1,5 @@
 # parseargs
+
 Command line argument parser for .NET.
 
 ## Classes
@@ -11,6 +12,7 @@ Command line argument parser for .NET.
 ## Examples
 
 Class to store parsed argument values:
+
 ```cs
 [ParsableAttribute]
 public class Store
@@ -32,10 +34,13 @@ public class Store
   public int Second { get; }
 }
 ```
+
 Main program:
+
 ```cs
 private static void Main(string[] args)
 {
   Parser<Store> parser = new Parser<Store>(args);
   Store store = parser.Parse();
 }
+```
