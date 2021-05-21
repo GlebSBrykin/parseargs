@@ -31,7 +31,7 @@ jobs:
           declare -i SUCCESS=0
           declare -i SEVERAL_ERRORS_IN_CSHARP_CODE=1
           logs='logs.log'
-          jb inspectcode getcontent.sln -s=warning -o="$logs"
+          jb inspectcode CommandLineArgumentParser.sln -s=warning -o="$logs"
           grep '<Issues />' "$logs" || exit "$SEVERAL_ERRORS_IN_CSHARP_CODE"
           exit "$SUCCESS"
       
