@@ -11,6 +11,7 @@ defaults:
 
 env:
   BUILD_PATH: "CommandLineArgumentParser/bin/Release/net5.0/"
+  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
 jobs:
   buildrelease:
