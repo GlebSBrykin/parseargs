@@ -30,7 +30,7 @@ jobs:
       - name: Lint
         run: |
           cd "$BUILD_PATH"
-          tar -cf release.tar CommandLineArgumentParser.exe
+          tar -cf release.tar CommandLineArgumentParser.dll
           mv release.tar ../../../../
         
       - name: Upload Release
