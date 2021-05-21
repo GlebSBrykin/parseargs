@@ -69,11 +69,8 @@ jobs:
     needs: buildrelease
 
     steps:
-      - name: Download
-        uses: actions/download-artifact@v2
-        with:
-          name: release
-      
+      - uses: actions/checkout@v2
+
       - name: Set Version
         run: |
           VERSION=$(echo $'${{ join(github.event.pull_request.labels.*.name, '\n') }}' | grep 'v.*' | head -n 1)
