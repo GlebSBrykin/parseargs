@@ -10,24 +10,32 @@ Command line argument parser for .NET.
 
 ## Examples
 
+Class to store parsed argument values:
 ```cs
-[CommandLineArgumentParser.ParsableAttribute]
+[ParsableAttribute]
 public class Store
 {
-  [CommandLineArgumentParser.FlagAttribute("-v")]
-  [CommandLineArgumentParser.FlagAttribute("--version")]
+  [FlagAttribute("-v")]
+  [FlagAttribute("--version")]
   public bool IsVersion { get; }
   
-  [CommandLineArgumentParser.FlagAttribute("-h")]
-  [CommandLineArgumentParser.FlagAttribute("--help")]
+  [FlagAttribute("-h")]
+  [FlagAttribute("--help")]
   public bool IsHelp { get; }
   
-  [CommandLineArgumentParser.OptionAttribute("-f", typeof(int))]
-  [CommandLineArgumentParser.OptionAttribute("--first", typeof(int))]
+  [OptionAttribute("-f", typeof(int))]
+  [OptionAttribute("--first", typeof(int))]
   public int First { get; }
   
-  [CommandLineArgumentParser.OptionAttribute("-s", typeof(int))]
-  [CommandLineArgumentParser.OptionAttribute("--second", typeof(int))]
+  [OptionAttribute("-s", typeof(int))]
+  [OptionAttribute("--second", typeof(int))]
   public int Second { get; }
 }
 ```
+Main program:
+```cs
+private static void Main(string[] args)
+{
+  Parser<Store> parser = new Parser<Store>(args);
+  Store store = parser.Parse();
+}
