@@ -9,6 +9,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  BUILD_PATH: "CommandLineArgumentParser/bin/Release/net5.0/"
+
 jobs:
   buildrelease:
     runs-on: windows-2019
@@ -26,8 +29,7 @@ jobs:
       
       - name: Lint
         run: |
-          build_path="CommandLineArgumentParser/bin/Release/net5.0/"
-          cd "$build_path"
+          cd "$BUILD_PATH"
           tar -cf release.tar CommandLineArgumentParser.exe
           mv release.tar ../../../../
         
@@ -61,3 +63,25 @@ jobs:
           prerelease: false
           title: Build ${{ env.VERSION }}
           files: release.tar
+
+  publishreleasetonuget:
+    runs-on: windows-2019
+    needs: buildrelease
+
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v2
+        with:
+          name: release
+      
+      - name: Set Version
+        run: |
+          VERSION=$(echo $'${{ join(github.event.pull_request.labels.*.name, '\n') }}' | grep 'v.*' | head -n 1)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Publish
+        if: env.VERSION != ''
+        run: |
+          dotnet pack --configuration Release
+          cd "$BUILD_PATH"
+          dotnet nuget push CommandLineArgumentParser.*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
