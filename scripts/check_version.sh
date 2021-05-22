@@ -8,9 +8,11 @@ declare -i VERSIONS_ARE_NOT_EQUAL_STATUS=2
 declare labels="$1"
 
 VERSION="$(echo -e "$labels" | grep 'v.*' | head -n 1)"
+VERSION="${VERSION#v}"
+
 if [[ -z "$VERSION" ]]
 then
-    echo "Missing label with version specified for pull request."
+    echo "Missing label with version specified for pull request (maybe it is 'v')."
     exit "$MISSING_VERSION_IN_LABEL_STATUS"
 fi
 
