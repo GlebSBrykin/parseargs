@@ -1,0 +1,89 @@
+name: CD
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  BUILD_PATH: "CommandLineArgumentParser/bin/Release/net5.0/"
+  CSPROJ_PATH: "../CommandLineArgumentParser/CommandLineArgumentParser.csproj"
+  SCRIPTS_PATH: "scripts/"
+  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+jobs:
+  buildrelease:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
+      - name: Build
+        run: dotnet build --configuration Release
+      
+      - name: Lint
+        run: |
+          cd "$BUILD_PATH"
+          tar -cf release.tar CommandLineArgumentParser.dll
+          mv release.tar ../../../../
+        
+      - name: Upload Release
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: release.tar
+
+  publishreleasetogithub:
+    runs-on: windows-2019
+    needs: buildrelease
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download
+        uses: actions/download-artifact@v2
+        with:
+          name: release
+        
+      - name: Set Version
+        run: |
+          cd "$SCRIPTS_PATH"
+          chmod +x check_version.sh && ./check_version.sh '${{ join(github.event.pull_request.labels.*.name, '\n') }}'
+      
+      - name: Publish
+        if: env.VERSION != ''
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: v${{ env.VERSION }}
+          prerelease: false
+          title: Build ${{ env.VERSION }}
+          files: release.tar
+
+  publishreleasetonuget:
+    runs-on: windows-2019
+    needs: buildrelease
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Version
+        run: |
+          cd "$SCRIPTS_PATH"
+          chmod +x check_version.sh && ./check_version.sh '${{ join(github.event.pull_request.labels.*.name, '\n') }}'
+
+      - name: Publish
+        if: env.VERSION != ''
+        run: |
+          dotnet pack --configuration Release
+          cd "$BUILD_PATH/.."
+          dotnet nuget push CommandLineArgumentParser.*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
