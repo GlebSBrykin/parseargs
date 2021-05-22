@@ -5,6 +5,7 @@ declare -i MISSING_VERSION_IN_LABEL_STATUS=1
 declare -i MISSING_VERSION_IN_CSPROJ_STATUS=2
 declare -i VERSIONS_ARE_NOT_EQUAL_STATUS=2
 
+# This argument is passed via '${{ join(github.event.pull_request.labels.*.name, '\n') }}' in cd.yml
 declare labels="$1"
 
 VERSION="$(echo -e "$labels" | grep 'v.*' | head -n 1)"
