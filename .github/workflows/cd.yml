@@ -11,7 +11,7 @@ defaults:
 
 env:
   BUILD_PATH: "CommandLineArgumentParser/bin/Release/net5.0/"
-  CSPROJ_PATH: "CommandLineArgumentParser/CommandLineArgumentParser.csproj"
+  CSPROJ_PATH: "../CommandLineArgumentParser/CommandLineArgumentParser.csproj"
   SCRIPTS_PATH: "scripts/"
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
