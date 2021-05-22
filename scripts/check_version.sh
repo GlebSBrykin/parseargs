@@ -16,8 +16,9 @@ fi
 
 if [[ "$(cat "$CSPROJ_PATH")" =~ \<Version\>(.*)\</Version\> ]]
 then
-    [[ "${BASH_REMATCH[1]}" == "$VERSION" ]] || {
-        echo "Version specified with pull request label is not equal to version specified in C# project."
+    CSPROJ_VERSION="${BASH_REMATCH[1]}"
+    [[ "$CSPROJ_VERSION" == "$VERSION" ]] || {
+        echo "Version specified with pull request label ($VERSION) is not equal to version specified in C# project ($CSPROJ_VERSION)."
         exit "$VERSIONS_ARE_NOT_EQUAL_STATUS"
     }
 else
