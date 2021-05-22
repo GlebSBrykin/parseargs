@@ -12,6 +12,7 @@ defaults:
 env:
   BUILD_PATH: "CommandLineArgumentParser/bin/Release/net5.0/"
   CSPROJ_PATH: "CommandLineArgumentParser/CommandLineArgumentParser.csproj"
+  SCRIPTS_PATH: "scripts/"
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
 jobs:
@@ -53,7 +54,8 @@ jobs:
         
       - name: Set Version
         run: |
-          chmod +x check_version && ./check_version '${{ join(github.event.pull_request.labels.*.name, '\n') }}'
+          cd "$SCRIPTS_PATH"
+          chmod +x check_version.sh && ./check_version.sh '${{ join(github.event.pull_request.labels.*.name, '\n') }}'
       
       - name: Publish
         if: env.VERSION != ''
@@ -74,7 +76,8 @@ jobs:
 
       - name: Set Version
         run: |
-          chmod +x check_version && ./check_version '${{ join(github.event.pull_request.labels.*.name, '\n') }}'
+          cd "$SCRIPTS_PATH"
+          chmod +x check_version.sh && ./check_version.sh '${{ join(github.event.pull_request.labels.*.name, '\n') }}'
 
       - name: Publish
         if: env.VERSION != ''
