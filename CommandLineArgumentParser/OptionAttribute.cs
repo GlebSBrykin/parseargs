@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace CommandLineArgumentParser
 {
@@ -16,6 +17,11 @@ namespace CommandLineArgumentParser
                 throw new ArgumentNullException(nameof(type), $"{nameof(type)} can't be null");
 
             Name = name;
+
+            IList<Type> supportedTypes = new List<Type>() { typeof(string), typeof(int), typeof(float) };
+            if (!supportedTypes.Contains(type))
+                throw new ArgumentException($"{nameof(type)} must be typeof(string), typeof(int) or typeof(float)", nameof(type));
+
             Type = type;
         }
     }
