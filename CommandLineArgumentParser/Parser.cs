@@ -91,7 +91,7 @@ namespace CommandLineArgumentParser
             }
         }
 
-        private IDictionary<string, SupportedType> CreateDictionaryForFields(IEnumerable<FieldInfo> fieldInfos)
+        private static IDictionary<string, SupportedType> CreateDictionaryForFields(IEnumerable<FieldInfo> fieldInfos)
         {
             IDictionary<string, SupportedType> result = new Dictionary<string, SupportedType>();
             foreach (var fieldInfo in fieldInfos)
@@ -102,7 +102,7 @@ namespace CommandLineArgumentParser
             return result;
         }
 
-        private IDictionary<string, SupportedType> CreateDictionaryForProperties(IEnumerable<PropertyInfo> propertyInfos)
+        private static IDictionary<string, SupportedType> CreateDictionaryForProperties(IEnumerable<PropertyInfo> propertyInfos)
         {
             IDictionary<string, SupportedType> result = new Dictionary<string, SupportedType>();
             foreach (var fieldInfo in propertyInfos)
@@ -113,7 +113,7 @@ namespace CommandLineArgumentParser
             return result;
         }
 
-        private KeyValuePair<string, SupportedType> CreateKeyValuePairForField(FieldInfo fieldInfo)
+        private static KeyValuePair<string, SupportedType> CreateKeyValuePairForField(FieldInfo fieldInfo)
         {
             IEnumerable<string> flagAttributeNames = fieldInfo.GetCustomAttributes<FlagAttribute>().Select(attr => attr.Name);
 
@@ -135,7 +135,7 @@ namespace CommandLineArgumentParser
             throw new ArgumentException($"field have incorrect {nameof(FlagAttribute)} and (or) {nameof(OptionAttribute)} attributes", nameof(fieldInfo));
         }
 
-        private KeyValuePair<string, SupportedType> CreateKeyValuePairForProperty(PropertyInfo propertyInfo)
+        private static KeyValuePair<string, SupportedType> CreateKeyValuePairForProperty(PropertyInfo propertyInfo)
         {
             IEnumerable<string> flagAttributeNames = propertyInfo.GetCustomAttributes<FlagAttribute>().Select(attr => attr.Name);
 
