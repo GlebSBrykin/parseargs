@@ -45,19 +45,19 @@ namespace CommandLineArgumentParser
 
         private static void FieldHasCorrectAttributes(FieldInfo fieldInfo)
         {
-            IEnumerable<FlagAttribute> flagAttributes = fieldInfo.GetCustomAttributes<FlagAttribute>();
-            IEnumerable<OptionAttribute> optionAttributes = fieldInfo.GetCustomAttributes<OptionAttribute>();
+            IList<FlagAttribute> flagAttributes = fieldInfo.GetCustomAttributes<FlagAttribute>().ToList();
+            IList<OptionAttribute> optionAttributes = fieldInfo.GetCustomAttributes<OptionAttribute>().ToList();
 
-            if (flagAttributes.Any() && optionAttributes.Any())
+            if (flagAttributes.Count > 0 && optionAttributes.Count > 0)
                 throw new ArgumentException($"{fieldInfo.Name} field can't have both {nameof(FlagAttribute)} and {nameof(OptionAttribute)} attributes", nameof(fieldInfo));
 
-            if (flagAttributes.Any())
+            if (flagAttributes.Count > 0)
             {
                 IEnumerable<string> names = flagAttributes.Select(attr => attr.Name);
                 if (names.Distinct().Count() != names.Count())
                     throw new ArgumentException($"{fieldInfo.Name} field can't have {nameof(FlagAttribute)} with dublicating names", nameof(fieldInfo));
             }
-            else if (optionAttributes.Any())
+            else if (optionAttributes.Count > 0)
             {
                 IEnumerable<string> names = optionAttributes.Select(attr => attr.Name);
                 if (names.Distinct().Count() != names.Count())
@@ -69,19 +69,19 @@ namespace CommandLineArgumentParser
 
         private static void PropertyHasCorrectAttributes(PropertyInfo propertyInfo)
         {
-            IEnumerable<FlagAttribute> flagAttributes = propertyInfo.GetCustomAttributes<FlagAttribute>();
-            IEnumerable<OptionAttribute> optionAttributes = propertyInfo.GetCustomAttributes<OptionAttribute>();
+            IList<FlagAttribute> flagAttributes = propertyInfo.GetCustomAttributes<FlagAttribute>().ToList();
+            IList<OptionAttribute> optionAttributes = propertyInfo.GetCustomAttributes<OptionAttribute>().ToList();
 
-            if (flagAttributes.Any() && optionAttributes.Any())
+            if (flagAttributes.Count > 0 && optionAttributes.Count > 0)
                 throw new ArgumentException($"{propertyInfo.Name} field can't have both {nameof(FlagAttribute)} and {nameof(OptionAttribute)} attributes", nameof(propertyInfo));
 
-            if (flagAttributes.Any())
+            if (flagAttributes.Count > 0)
             {
                 IEnumerable<string> names = flagAttributes.Select(attr => attr.Name);
                 if (names.Distinct().Count() != names.Count())
                     throw new ArgumentException($"{propertyInfo.Name} field can't have {nameof(FlagAttribute)} with dublicating names", nameof(propertyInfo));
             }
-            else if (optionAttributes.Any())
+            else if (optionAttributes.Count > 0)
             {
                 IEnumerable<string> names = optionAttributes.Select(attr => attr.Name);
                 if (names.Distinct().Count() != names.Count())
@@ -89,6 +89,72 @@ namespace CommandLineArgumentParser
                 if (optionAttributes.Select(attr => attr.Type).Distinct().Count() > 1)
                     throw new ArgumentException($"{propertyInfo.Name} field can't have {nameof(OptionAttribute)} with different types", nameof(propertyInfo));
             }
+        }
+
+        private IDictionary<string, SupportedType> CreateDictionaryForFields(IEnumerable<FieldInfo> fieldInfos)
+        {
+            IDictionary<string, SupportedType> result = new Dictionary<string, SupportedType>();
+            foreach (var fieldInfo in fieldInfos)
+            {
+                KeyValuePair<string, SupportedType> pair = CreateKeyValuePairForField(fieldInfo);
+                result.Add(pair.Key, pair.Value);
+            }
+            return result;
+        }
+
+        private IDictionary<string, SupportedType> CreateDictionaryForProperties(IEnumerable<PropertyInfo> propertyInfos)
+        {
+            IDictionary<string, SupportedType> result = new Dictionary<string, SupportedType>();
+            foreach (var fieldInfo in propertyInfos)
+            {
+                KeyValuePair<string, SupportedType> pair = CreateKeyValuePairForProperty(fieldInfo);
+                result.Add(pair.Key, pair.Value);
+            }
+            return result;
+        }
+
+        private KeyValuePair<string, SupportedType> CreateKeyValuePairForField(FieldInfo fieldInfo)
+        {
+            IEnumerable<string> flagAttributeNames = fieldInfo.GetCustomAttributes<FlagAttribute>().Select(attr => attr.Name);
+
+            IEnumerable<OptionAttribute> optionAttributes = fieldInfo.GetCustomAttributes<OptionAttribute>();
+            IEnumerable<string> optionAttributeNames = optionAttributes.Select(attr => attr.Name);
+
+            IDictionary<Type, SupportedType> typesToSupportedTypes = new Dictionary<Type, SupportedType>()
+            {
+                [typeof(string)] = SupportedType.String,
+                [typeof(int)] = SupportedType.Int,
+                [typeof(float)] = SupportedType.Float
+            };
+
+            if (flagAttributeNames.Any())
+                return new KeyValuePair<string, SupportedType>(flagAttributeNames.First(), SupportedType.None);
+            else if (optionAttributeNames.Any())
+                return new KeyValuePair<string, SupportedType>(optionAttributeNames.First(), typesToSupportedTypes[optionAttributes.First().Type]);
+
+            throw new ArgumentException($"field have incorrect {nameof(FlagAttribute)} and (or) {nameof(OptionAttribute)} attributes", nameof(fieldInfo));
+        }
+
+        private KeyValuePair<string, SupportedType> CreateKeyValuePairForProperty(PropertyInfo propertyInfo)
+        {
+            IEnumerable<string> flagAttributeNames = propertyInfo.GetCustomAttributes<FlagAttribute>().Select(attr => attr.Name);
+
+            IEnumerable<OptionAttribute> optionAttributes = propertyInfo.GetCustomAttributes<OptionAttribute>();
+            IEnumerable<string> optionAttributeNames = optionAttributes.Select(attr => attr.Name);
+
+            IDictionary<Type, SupportedType> typesToSupportedTypes = new Dictionary<Type, SupportedType>()
+            {
+                [typeof(string)] = SupportedType.String,
+                [typeof(int)] = SupportedType.Int,
+                [typeof(float)] = SupportedType.Float
+            };
+
+            if (flagAttributeNames.Any())
+                return new KeyValuePair<string, SupportedType>(flagAttributeNames.First(), SupportedType.None);
+            else if (optionAttributeNames.Any())
+                return new KeyValuePair<string, SupportedType>(optionAttributeNames.First(), typesToSupportedTypes[optionAttributes.First().Type]);
+
+            throw new ArgumentException($"field have incorrect {nameof(FlagAttribute)} and (or) {nameof(OptionAttribute)} attributes", nameof(propertyInfo));
         }
     }
 }
