@@ -1,2 +1,7 @@
 [*.cs]
+# ReSharper
 resharper_possible_multiple_enumeration_highlighting=none
+
+# Roslynator
+dotnet_diagnostic.RCS1001.severity=none
+dotnet_diagnostic.RCS1003.severity=none
