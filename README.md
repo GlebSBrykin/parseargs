@@ -6,7 +6,7 @@ Command line argument parser for .NET.
 
 - `CommandLineArgumentParser.ParsableAttribute()` - marks class which stores command line argument parsing results
 - `CommandLineArgumentParser.FlagAttribute(name)` - marks type member which stores command line flag bool value
-- `CommandLineArgumentParser.OptionAttribute(name, type)` - marks type member which stores command line option value
+- `CommandLineArgumentParser.OptionAttribute(name)` - marks type member which stores command line option value
 - `CommandLineArgumentParser.Parser(args)` - command line argument parser with `Parse` method to parse command line arguments passed as array
 
 ## Examples
@@ -25,12 +25,12 @@ public class Store
   [FlagAttribute("--help")]
   public bool IsHelp { get; }
   
-  [OptionAttribute("-f", typeof(int))]
-  [OptionAttribute("--first", typeof(int))]
+  [OptionAttribute("-f")]
+  [OptionAttribute("--first")]
   public int First { get; }
   
-  [OptionAttribute("-s", typeof(int))]
-  [OptionAttribute("--second", typeof(int))]
+  [OptionAttribute("-s")]
+  [OptionAttribute("--second")]
   public int Second { get; }
 }
 ```
