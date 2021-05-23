@@ -12,6 +12,15 @@ namespace CommandLineArgumentParser.Tests.Parser
         {
         }
 
+        private class NotParsableAnyEmptyType
+        {
+        }
+
+        [Parsable]
+        private class ParsableAnyEmptyType
+        {
+        }
+
         [Test]
         public void Expect_ArgumentNullException_When_ArgsIsNull()
         {
@@ -24,6 +33,20 @@ namespace CommandLineArgumentParser.Tests.Parser
         {
             Assert.DoesNotThrow(() => new Parser<AnyType>(Array.Empty<string>()),
                 "No exception expected when args parameter was not null.");
+        }
+
+        [Test]
+        public void Expect_ArgumentException_When_GenericParameterIsNotParsable()
+        {
+            Assert.Throws<ArgumentException>(() => new Parser<NotParsableAnyEmptyType>(Array.Empty<string>()).Parse(),
+                $"{nameof(ArgumentException)} expected when T generic parameter was not parsable.");
+        }
+
+        [Test]
+        public void Expect_NoException_When_GenericParameterIsParsable()
+        {
+            Assert.DoesNotThrow(() => new Parser<ParsableAnyEmptyType>(Array.Empty<string>()).Parse(),
+                "No exception expected when T generic parameter was parsable.");
         }
     }
 }
