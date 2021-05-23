@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
 
-namespace CommandLineArgumentParser.Tests
+namespace CommandLineArgumentParser.Tests.Attributes
 {
     [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
     [TestFixture]
