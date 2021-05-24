@@ -43,7 +43,7 @@ namespace CommandLineArgumentParser.Tests.Parser
             var instance = new Parser<WithFieldMarkedAsFlag>(Array.Empty<string>()).Parse();
 
             Assert.AreEqual(instance.Field, default(bool),
-                $"No exception and default instance with {nameof(instance.Field)} equal to {default(bool)} expected when T was parsable and unused flag defined.");
+                $"No exception and not null instance with {nameof(instance.Field)} equal to {default(bool)} expected when T was parsable and unused flag defined.");
         }
 
         [Test]

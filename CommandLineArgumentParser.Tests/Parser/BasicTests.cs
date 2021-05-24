@@ -74,13 +74,13 @@ namespace CommandLineArgumentParser.Tests.Parser
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(instance.Field1, default(bool),
-                    $"No exception and default instance with {nameof(instance.Field1)} equal to {default(bool)} expected when T was parsable and no flags or options defined.");
+                    $"No exception and not null instance with {nameof(instance.Field1)} equal to {default(bool)} expected when T was parsable and no flags or options defined.");
                 Assert.AreEqual(instance.Field2, default(int),
-                    $"No exception and default instance with {nameof(instance.Field2)} equal to {default(int)} expected when T was parsable and no flags or options defined.");
+                    $"No exception and not null instance with {nameof(instance.Field2)} equal to {default(int)} expected when T was parsable and no flags or options defined.");
                 Assert.AreEqual(instance.Field3, default(float),
-                    $"No exception and default instance with {nameof(instance.Field3)} equal to {default(float)} expected when T was parsable and no flags or options defined.");
+                    $"No exception and not null instance with {nameof(instance.Field3)} equal to {default(float)} expected when T was parsable and no flags or options defined.");
                 Assert.AreEqual(instance.Field4, default(string),
-                    $"No exception and default instance with {nameof(instance.Field4)} equal to {default(string)} expected when T was parsable and no flags or options defined.");
+                    $"No exception and not null instance with {nameof(instance.Field4)} equal to {default(string)} expected when T was parsable and no flags or options defined.");
             });
         }
     }
