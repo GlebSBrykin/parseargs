@@ -10,6 +10,7 @@ Command line argument parser for .NET.
 - `CommandLineArgumentParser.Parser(args)` - command line argument parser with `Parse` method to parse command line arguments passed as array
 
 ## Examples
+
 ### Argument sum
 
 The following program accepts two options `-f`|`--first` and `-s`|`--second` where int numbers are stored and prints their sum:
