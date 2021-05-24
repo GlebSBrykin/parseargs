@@ -10,37 +10,36 @@ Command line argument parser for .NET.
 - `CommandLineArgumentParser.Parser(args)` - command line argument parser with `Parse` method to parse command line arguments passed as array
 
 ## Examples
+### Argument sum
 
-Class to store parsed argument values:
-
+The following program accepts two options `-f`|`--first` and `-s`|`--second` where int numbers are stored and prints their sum:
 ```cs
-[ParsableAttribute]
-public class Store
+using System;
+using CommandLineArgumentParser;
+
+namespace NugetTest
 {
-  [FlagAttribute("-v")]
-  [FlagAttribute("--version")]
-  public bool IsVersion { get; }
-  
-  [FlagAttribute("-h")]
-  [FlagAttribute("--help")]
-  public bool IsHelp { get; }
-  
-  [OptionAttribute("-f")]
-  [OptionAttribute("--first")]
-  public int First { get; }
-  
-  [OptionAttribute("-s")]
-  [OptionAttribute("--second")]
-  public int Second { get; }
+    internal static class Program
+    {
+        [Parsable]
+        private class Store
+        {
+            [Option("-f")]
+            [Option("--first")]
+            public int First;
+
+            [Option("-s")]
+            [Option("--second")]
+            public int Second;
+        }
+
+        private static void Main(string[] args)
+        {
+            var store = new Parser<Store>(args).Parse();
+            Console.WriteLine($"{store.First} + {store.Second} = {store.First + store.Second}");
+            Console.ReadLine();
+        }
+    }
 }
 ```
-
-Main program:
-
-```cs
-private static void Main(string[] args)
-{
-  Parser<Store> parser = new Parser<Store>(args);
-  Store store = parser.Parse();
-}
-```
+Field type specified option type.
