@@ -42,4 +42,4 @@ namespace NugetTest
     }
 }
 ```
-Field type specified option type.
+Field type specifies option type.
