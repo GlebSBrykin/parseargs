@@ -11,36 +11,73 @@ Command line argument parser for .NET.
 
 ## Examples
 
-Class to store parsed argument values:
+### Argument sum
+
+The following program accepts two options `-f`|`--first` and `-s`|`--second` where int numbers are stored and prints their sum:
 
 ```cs
-[ParsableAttribute]
-public class Store
+using System;
+using CommandLineArgumentParser;
+
+namespace NugetTest
 {
-  [FlagAttribute("-v")]
-  [FlagAttribute("--version")]
-  public bool IsVersion { get; }
-  
-  [FlagAttribute("-h")]
-  [FlagAttribute("--help")]
-  public bool IsHelp { get; }
-  
-  [OptionAttribute("-f")]
-  [OptionAttribute("--first")]
-  public int First { get; }
-  
-  [OptionAttribute("-s")]
-  [OptionAttribute("--second")]
-  public int Second { get; }
+    internal static class Program
+    {
+        [Parsable]
+        private class Store
+        {
+            [Option("-f")]
+            [Option("--first")]
+            public int First;
+
+            [Option("-s")]
+            [Option("--second")]
+            public int Second;
+        }
+
+        private static void Main(string[] args)
+        {
+            var store = new Parser<Store>(args).Parse();
+            Console.WriteLine($"{store.First} + {store.Second} = {store.First + store.Second}");
+            Console.ReadLine();
+        }
+    }
 }
 ```
 
-Main program:
+Field type specifies option type.
+
+### Flag checking
+
+The following program accepts two flags (options without values) `-fa`|`--flag-a` and `-fb`|`--flag-b` and then checks which ones are passed:
 
 ```cs
-private static void Main(string[] args)
+using System;
+using CommandLineArgumentParser;
+
+namespace NugetTest
 {
-  Parser<Store> parser = new Parser<Store>(args);
-  Store store = parser.Parse();
+    internal static class Program
+    {
+        [Parsable]
+        private class Store
+        {
+            [Flag("-fa")]
+            [Flag("--flag-a")]
+            public bool FlagA;
+
+            [Flag("-fb")]
+            [Flag("--flag-b")]
+            public bool FlagB;
+        }
+
+        private static void Main(string[] args)
+        {
+            var store = new Parser<Store>(args).Parse();
+            Console.WriteLine($"Is --flag-a enabled? {store.FlagA}");
+            Console.WriteLine($"Is --flag-b enabled? {store.FlagB}");
+            Console.ReadLine();
+        }
+    }
 }
 ```
