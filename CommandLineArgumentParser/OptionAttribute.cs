@@ -2,7 +2,7 @@ using System;
 
 namespace CommandLineArgumentParser
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true, Inherited = false)]
     public class OptionAttribute : Attribute
     {
         public string Name { get; }
