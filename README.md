@@ -1,5 +1,7 @@
 # parseargs
 
+[![CI](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml/badge.svg)](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml)
+
 Command line argument parser for .NET.
 
 ## Classes
