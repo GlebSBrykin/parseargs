@@ -28,13 +28,13 @@ namespace CommandLineArgumentParser
             FieldInfo[] fieldInfos = type.GetFields();
             PropertyInfo[] propertyInfos = type.GetProperties();
 
+            foreach (var info in fieldInfos)
+                FieldHasCorrectAttributes(info);
+            foreach (var info in propertyInfos)
+                PropertyHasCorrectAttributes(info);
+
             try
             {
-                foreach (var info in fieldInfos)
-                    FieldHasCorrectAttributes(info);
-                foreach (var info in propertyInfos)
-                    PropertyHasCorrectAttributes(info);
-
                 IDictionary<string, Type> nameToTypeMap = CreateDictionaryForAllMembers(fieldInfos, propertyInfos);
 
                 for (int i = 0; i < Args.Count; i++)
