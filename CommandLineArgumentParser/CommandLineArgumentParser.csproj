@@ -2,15 +2,23 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>CommandLineArgumentParser</PackageId>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>Alvin Seville</Authors>
     <Company></Company>
     <Description>
       Command line argument parser for .NET.
     </Description>
+    <ReleaseNotes>
+      Small package appearance improvements:
+      - icon added
+      - tags added
+      - license added
+    </ReleaseNotes>
     <RepositoryUrl>https://github.com/alvinseville7cf/parseargs.git</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <Tags>parser;command line</Tags>
+    <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\icons\icon.png" Pack="true" PackagePath="\"/>
