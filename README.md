@@ -1,15 +1,55 @@
 # parseargs
 
-[![CI](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml/badge.svg)](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml)
+## Description
 
-Command line argument parser for .NET.
+[![CI](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml/badge.svg)](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml) [![GitHub release](https://img.shields.io/github/release/alvinseville7cf/parseargs.svg)](https://github.com/alvinseville7cf/parseargs/releases/)
 
-## Classes
+Command line argument parser for .NET based on attributes.
 
-- `CommandLineArgumentParser.ParsableAttribute()` - marks class which stores command line argument parsing results
-- `CommandLineArgumentParser.FlagAttribute(name)` - marks type member which stores command line flag bool value
-- `CommandLineArgumentParser.OptionAttribute(name)` - marks type member which stores command line option value
-- `CommandLineArgumentParser.Parser(args)` - command line argument parser with `Parse` method to parse command line arguments passed as array
+## Installation
+
+You can download parseargs from [GitHub releases](https://github.com/alvinseville7cf/parseargs/releases) as .dll or install it as [NuGet package](https://www.nuget.org/packages/CommandLineArgumentParser/).
+
+## Introduction
+
+parseargs introduces some terminology such as flag and option:
+
+- flag - command line switch without explicitly passed value with bool type (`--is-enabled` for example)
+- option - command line switch with value with bool|int|float|string type (`--foreground red` for example)
+
+Each flag/option must correspond to some field/property to be recognized as such:
+
+```cs
+[Parsable]
+private class Store
+{
+    [Option("-f")]
+    [Option("--first")]
+    public int First;
+
+    [Option("-s")]
+    [Option("--second")]
+    public int Second;
+}
+```
+
+Here we define two options `-f`|`--first` and `-s`|`--second` where passed as command line arguments numbers are stored. Note that all parsed info is stored in Store (in our case) class. For example if we run out program with Store class with the following switches:
+
+```bash
+--first 4 --second 5
+```
+
+then First field is 4 and second one is 5 after parsing args array in Main method. Missed options mean default values assigned to corresponding fields/properties.
+
+### Classes
+
+There are several attributes to mark fields/properties as flags/options:
+
+- `CommandLineArgumentParser.ParsableAttribute()` - marks class which stores command line argument parsing results (it is mandatory attribute for types which store parse results)
+- `CommandLineArgumentParser.FlagAttribute(name)` - marks type member which stores flag bool value
+- `CommandLineArgumentParser.OptionAttribute(name)` - marks type member which stores option value
+
+You have to invoke Parse method of `CommandLineArgumentParser.Parser<StorageType>` class to fill StorageType type fields/properties with flag/option values.
 
 ## Examples
 
@@ -47,7 +87,17 @@ namespace NugetTest
 }
 ```
 
-Field type specifies option type.
+Field type specifies option type. If you run your program with the following arguments:
+
+```bash
+--first 4 --second 5
+```
+
+the output is:
+
+```bash
+4 + 5 = 9
+```
 
 ### Flag checking
 
@@ -82,4 +132,17 @@ namespace NugetTest
         }
     }
 }
+```
+
+If you run your program with the following arguments:
+
+```bash
+--flag-a
+```
+
+the output is:
+
+```bash
+Is --flag-a enabled? true
+Is --flag-b enabled? false
 ```
