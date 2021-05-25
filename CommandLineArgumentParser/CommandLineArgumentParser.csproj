@@ -9,7 +9,7 @@
       Command line argument parser for .NET.
     </Description>
     <RepositoryUrl>https://github.com/alvinseville7cf/parseargs.git</RepositoryUrl>
-    <PackageIcon>icons\icon.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Include="icons\icon.png" Pack="true" PackagePath="\"/>
