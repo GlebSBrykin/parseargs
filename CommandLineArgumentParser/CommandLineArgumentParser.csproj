@@ -8,6 +8,7 @@
     <Description>
       Command line argument parser for .NET.
     </Description>
+    <RepositoryUrl>https://github.com/alvinseville7cf/parseargs.git</RepositoryUrl>
     <PackageIcon>icons\icon.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
