@@ -87,7 +87,17 @@ namespace NugetTest
 }
 ```
 
-Field type specifies option type.
+Field type specifies option type. If you run your program with the following arguments:
+
+```bash
+--first 4 --second 5
+```
+
+the output is:
+
+```bash
+4 + 5 = 9
+```
 
 ### Flag checking
 
@@ -122,4 +132,17 @@ namespace NugetTest
         }
     }
 }
+```
+
+If you run your program with the following arguments:
+
+```bash
+--flag-a
+```
+
+the output is:
+
+```bash
+Is --flag-a enabled? true
+Is --flag-b enabled? false
 ```
