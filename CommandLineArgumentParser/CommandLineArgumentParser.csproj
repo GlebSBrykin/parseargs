@@ -10,6 +10,7 @@
     </Description>
     <RepositoryUrl>https://github.com/alvinseville7cf/parseargs.git</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
+    <Tags>parser;command line</Tags>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\icons\icon.png" Pack="true" PackagePath="\"/>
