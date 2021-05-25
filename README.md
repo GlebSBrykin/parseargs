@@ -46,7 +46,7 @@ There are several attributes to mark fields/properties as flags/options:
 - `CommandLineArgumentParser.FlagAttribute(name)` - marks type member which stores flag bool value
 - `CommandLineArgumentParser.OptionAttribute(name)` - marks type member which stores option value
 
-You have to invoke Parse method of `CommandLineArgumentParser.Parser<StorageType>(args)` class to fill StorageType type fields/properties with flag/option values.
+You have to invoke Parse method of `CommandLineArgumentParser.Parser<StorageType>` class to fill StorageType type fields/properties with flag/option values.
 
 ## Examples
 
