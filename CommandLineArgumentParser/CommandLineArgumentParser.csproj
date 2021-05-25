@@ -1,15 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>CommandLineArgumentParser</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Alvin Seville</Authors>
     <Company></Company>
     <Description>
       Command line argument parser for .NET.
     </Description>
-    <Icon>icons/icon.jpg</Icon>
+    <PackageIcon>icons\icon.png</PackageIcon>
   </PropertyGroup>
-
+  <ItemGroup>
+    <None Include="icons\icon.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>
