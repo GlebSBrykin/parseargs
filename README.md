@@ -1,10 +1,12 @@
 # parseargs
 
+## Description
+
 [![CI](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml/badge.svg)](https://github.com/alvinseville7cf/parseargs/actions/workflows/ci.yml) [![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://github.com/alvinseville7cf/parseargs/releases/)
 
 Command line argument parser for .NET based on attributes.
 
-# Installation
+## Installation
 You can download parseargs from [GitHub releases](https://github.com/alvinseville7cf/parseargs/releases) as .dll or install it as [NuGet package](https://www.nuget.org/packages/CommandLineArgumentParser/).
 
 ## Classes
